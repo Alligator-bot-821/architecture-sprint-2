@@ -19,7 +19,8 @@ rs.initiate(
     {
       _id : "shard1",
       members: [
-        { _id : 0, host : "shard1:27018" }
+        { _id : 0, host : "shard1:27018" },
+        { _id : 1, host : "shard1_2:27031" }
       ]
     }
 );
@@ -31,7 +32,8 @@ rs.initiate(
   {
     _id : "shard2",
     members: [
-      { _id : 0, host : "shard2:27019" }
+      { _id : 0, host : "shard2:27019" },
+      { _id : 1, host : "shard2_2:27032" }
     ]
   }
 );
@@ -43,7 +45,10 @@ sleep 7
 # Инициализируем роутер, и заполняем тестовыми данными
 docker exec -i mongos_router mongosh --port 27020 <<EOF
 sh.addShard( "shard1/shard1:27018");
+sh.addShard( "shard1/shard1_2:27031");
+
 sh.addShard( "shard2/shard2:27019");
+sh.addShard( "shard2/shard2_2:27032");
 
 sh.enableSharding("somedb");
 sh.shardCollection("somedb.helloDoc", { "name" : "hashed" } );
