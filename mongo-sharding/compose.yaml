@@ -122,7 +122,6 @@ networks:
   app-network:
 
 volumes:
-  mongodb1_data_container:
   config-data:
   shard1-data:
   shard2-data:
